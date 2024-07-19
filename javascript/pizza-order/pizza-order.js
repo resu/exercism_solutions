@@ -22,13 +22,13 @@ export function pizzaPrice(pizza, ...extras) {
     'ExtraToppings': 2,
   };
 
-  if (!BASE_PRICES.hasOwnProperty(pizza)) {
+  if (!Object.prototype.hasOwnProperty.call(BASE_PRICES, pizza)) {
     throw new Error(`Unknown pizza type: ${pizza}`);
   }
 
   let price = BASE_PRICES[pizza];
   for (const extra of extras) {
-    if (!EXTRA_PRICES.hasOwnProperty(extra)) {
+    if (!Object.prototype.hasOwnProperty.call(EXTRA_PRICES, extra)) {
       throw new Error(`Unknown extra type: ${extra}`);
     }
     price += EXTRA_PRICES[extra];
