@@ -11,7 +11,30 @@
  * @returns {number} the price of the pizza
  */
 export function pizzaPrice(pizza, ...extras) {
-  throw new Error('Please implement the pizzaPrice function');
+  const BASE_PRICES = {
+    'Margherita': 7,
+    'Caprese': 9,
+    'Formaggio': 10,
+  };
+
+  const EXTRA_PRICES = {
+    'ExtraSauce': 1,
+    'ExtraToppings': 2,
+  };
+
+  if (!BASE_PRICES.hasOwnProperty(pizza)) {
+    throw new Error(`Unknown pizza type: ${pizza}`);
+  }
+
+  let price = BASE_PRICES[pizza];
+  for (const extra of extras) {
+    if (!EXTRA_PRICES.hasOwnProperty(extra)) {
+      throw new Error(`Unknown extra type: ${extra}`);
+    }
+    price += EXTRA_PRICES[extra];
+  }
+
+  return price;
 }
 
 /**
@@ -24,5 +47,7 @@ export function pizzaPrice(pizza, ...extras) {
  * @returns {number} the price of the total order
  */
 export function orderPrice(pizzaOrders) {
-  throw new Error('Please implement the orderPrice function');
+  return pizzaOrders.reduce((total, order) => {
+    return total + pizzaPrice(order.pizza, ...order.extras);
+  }, 0);
 }
