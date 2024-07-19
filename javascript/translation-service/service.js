@@ -8,6 +8,8 @@
 //
 // In your own projects, files, and code, you can play with @ts-check as well.
 
+import { NotAvailable, Untranslatable } from './errors';
+
 export class TranslationService {
   /**
    * Creates a new service
@@ -27,7 +29,7 @@ export class TranslationService {
    * @returns {Promise<string>}
    */
   free(text) {
-    throw new Error('Implement the free function');
+    return this.api.fetch(text).then((result) => result.translation);
   }
 
   /**
@@ -41,7 +43,12 @@ export class TranslationService {
    * @returns {Promise<string[]>}
    */
   batch(texts) {
-    throw new Error('Implement the batch function');
+    if (texts.length === 0) {
+      return Promise.reject(new BatchIsEmpty());
+    }
+
+    const promises = texts.map((text) => this.free(text));
+    return Promise.all(promises);
   }
 
   /**
@@ -54,7 +61,25 @@ export class TranslationService {
    * @returns {Promise<void>}
    */
   request(text) {
-    throw new Error('Implement the request function');
+    /**
+     * @param {number} retries
+     * @returns {Promise<void>}
+     */
+    const attemptRequest = (retries) => {
+      return new Promise((resolve, reject) => {
+        this.api.request(text, (err) => {
+          if (!err) {
+            resolve();
+          } else if (retries > 0) {
+            attemptRequest(retries - 1).then(resolve).catch(reject); 
+          } else {
+            reject(err); 
+          }
+        });
+      });
+    };
+
+    return attemptRequest(2);
   }
 
   /**
@@ -68,7 +93,21 @@ export class TranslationService {
    * @returns {Promise<string>}
    */
   premium(text, minimumQuality) {
-    throw new Error('Implement the premium function');
+    return this.api.fetch(text)
+      .then((result) => {
+        if (result.quality >= minimumQuality) {
+          return result.translation;
+        } else {
+          throw new QualityThresholdNotMet(text);
+        }
+      })
+      .catch((err) => {
+        if (err instanceof NotAvailable) {
+          return this.request(text).then(() => this.premium(text, minimumQuality));
+        } else {
+          throw err;
+        }
+      });
   }
 }
 
@@ -82,9 +121,7 @@ export class QualityThresholdNotMet extends Error {
    */
   constructor(text) {
     super(
-      `
-The translation of ${text} does not meet the requested quality threshold.
-    `.trim(),
+      `The translation of ${text} does not meet the requested quality threshold.`.trim(),
     );
 
     this.text = text;
@@ -98,9 +135,7 @@ The translation of ${text} does not meet the requested quality threshold.
 export class BatchIsEmpty extends Error {
   constructor() {
     super(
-      `
-Requested a batch translation, but there are no texts in the batch.
-    `.trim(),
+      `Requested a batch translation, but there are no texts in the batch.`.trim(),
     );
   }
 }
