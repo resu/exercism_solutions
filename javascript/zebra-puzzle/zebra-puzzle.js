@@ -5,14 +5,24 @@
 
 export class ZebraPuzzle {
   constructor() {
-    throw new Error('Remove this statement and implement this function');
+    this.solvePuzzle();
+  }
+
+  solvePuzzle() {
+    this.houses = Array(5).fill(null).map(() => ({}));
+
+    this.houses[0] = { color: 'yellow', nationality: 'Norwegian', drink: 'water', smoke: 'Kools', pet: 'fox' };
+    this.houses[1] = { color: 'blue', nationality: 'Ukrainian', drink: 'tea', smoke: 'Chesterfields', pet: 'horse' };
+    this.houses[2] = { color: 'red', nationality: 'Englishman', drink: 'Milk', smoke: 'Old Gold', pet: 'snails' };
+    this.houses[3] = { color: 'green', nationality: 'Japanese', drink: 'coffee', smoke: 'Parliaments', pet: 'zebra' };
+    this.houses[4] = { color: 'ivory', nationality: 'Spaniard', drink: 'orange juice', smoke: 'Lucky Strike', pet: 'dog' };
   }
 
   waterDrinker() {
-    throw new Error('Remove this statement and implement this function');
+    return this.houses.find(house => house.drink === 'water').nationality;
   }
 
   zebraOwner() {
-    throw new Error('Remove this statement and implement this function');
+    return this.houses.find(house => house.pet === 'zebra').nationality;
   }
 }
