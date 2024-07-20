@@ -8,7 +8,7 @@
 //
 // In your own projects, files, and code, you can play with @ts-check as well.
 
-import { NotAvailable, Untranslatable } from './errors';
+import { NotAvailable } from './errors';
 
 export class TranslationService {
   /**
