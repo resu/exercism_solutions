@@ -6,9 +6,9 @@
  *
  * @returns {Record<string, number>} new score board
  */
-export function createScoreBoard() {
-  throw new Error('Please implement the createScoreBoard function');
-}
+export const createScoreBoard = () => {
+  return { 'The Best Ever': 1000000 };
+};
 
 /**
  * Adds a player to a score board.
@@ -18,9 +18,10 @@ export function createScoreBoard() {
  * @param {number} score
  * @returns {Record<string, number>} updated score board
  */
-export function addPlayer(scoreBoard, player, score) {
-  throw new Error('Please implement the addPlayer function');
-}
+export const addPlayer = (scoreBoard, player, score) => {
+  scoreBoard[player] = score;
+  return scoreBoard;
+};
 
 /**
  * Removes a player from a score board.
@@ -29,9 +30,10 @@ export function addPlayer(scoreBoard, player, score) {
  * @param {string} player
  * @returns {Record<string, number>} updated score board
  */
-export function removePlayer(scoreBoard, player) {
-  throw new Error('Please implement the removePlayer function');
-}
+export const removePlayer = (scoreBoard, player) => {
+  delete scoreBoard[player];
+  return scoreBoard;
+};
 
 /**
  * Increases a player's score by the given amount.
@@ -41,9 +43,12 @@ export function removePlayer(scoreBoard, player) {
  * @param {number} points
  * @returns {Record<string, number>} updated score board
  */
-export function updateScore(scoreBoard, player, points) {
-  throw new Error('Please implement the updateScore function');
-}
+export const updateScore = (scoreBoard, player, points) => {
+  if (scoreBoard[player] !== undefined) {
+    scoreBoard[player] += points;
+  }
+  return scoreBoard;
+};
 
 /**
  * Applies 100 bonus points to all players on the board.
@@ -51,9 +56,14 @@ export function updateScore(scoreBoard, player, points) {
  * @param {Record<string, number>} scoreBoard
  * @returns {Record<string, number>} updated score board
  */
-export function applyMondayBonus(scoreBoard) {
-  throw new Error('Please implement the applyMondayBonus function');
-}
+export const applyMondayBonus = (scoreBoard) => {
+  for (const player in scoreBoard) {
+    if (Object.prototype.hasOwnProperty.call(scoreBoard, player)) {
+      scoreBoard[player] += 100;
+    }
+  }
+  return scoreBoard;
+};
 
 /**
  * Normalizes a score with the provided normalization function.
@@ -61,6 +71,6 @@ export function applyMondayBonus(scoreBoard) {
  * @param {Params} params the parameters for performing the normalization
  * @returns {number} normalized score
  */
-export function normalizeScore(params) {
-  throw new Error('Please implement the normalizeScore function');
-}
+export const normalizeScore = (params) => {
+  return params.normalizeFunction(params.score);
+};
