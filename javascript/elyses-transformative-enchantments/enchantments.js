@@ -8,7 +8,7 @@
  * @returns {number[]} deck with every card doubled
  */
 export function seeingDouble(deck) {
-  throw new Error('Implement the seeingDouble function');
+  return deck.map(card => card * 2);
 }
 
 /**
@@ -19,7 +19,16 @@ export function seeingDouble(deck) {
  * @returns {number[]} deck with triplicate 3s
  */
 export function threeOfEachThree(deck) {
-  throw new Error('Implement the threeOfEachThree function');
+  return deck.reduce((acc, card) => {
+    if (card === 3) {
+      // @ts-ignore
+      acc.push(3, 3, 3);
+    } else {
+      // @ts-ignore
+      acc.push(card);
+    }
+    return acc;
+  }, []);
 }
 
 /**
@@ -31,7 +40,7 @@ export function threeOfEachThree(deck) {
  * @returns {number[]} deck with only two middle cards
  */
 export function middleTwo(deck) {
-  throw new Error('Implement the middleTwo function');
+  return deck.slice(4, 6);
 }
 
 /**
@@ -41,9 +50,13 @@ export function middleTwo(deck) {
  *
  * @returns {number[]} transformed deck
  */
-
 export function sandwichTrick(deck) {
-  throw new Error('Implement the sandwichTrick function');
+  const firstCard = deck.shift();
+  const lastCard = deck.pop();
+  const middleIndex = Math.floor(deck.length / 2);
+  // @ts-ignore
+  deck.splice(middleIndex, 0, lastCard, firstCard);
+  return deck;
 }
 
 /**
@@ -54,7 +67,7 @@ export function sandwichTrick(deck) {
  * @returns {number[]} deck with only 2s
  */
 export function twoIsSpecial(deck) {
-  throw new Error('Implement the twoIsSpecial function');
+  return deck.filter(card => card === 2);
 }
 
 /**
@@ -65,7 +78,7 @@ export function twoIsSpecial(deck) {
  * @returns {number[]} ordered deck
  */
 export function perfectlyOrdered(deck) {
-  throw new Error('Implement the perfectlyOrdered function');
+  return deck.slice().sort((a, b) => a - b);
 }
 
 /**
@@ -76,5 +89,6 @@ export function perfectlyOrdered(deck) {
  * @returns {number[]} reordered deck
  */
 export function reorder(deck) {
-  throw new Error('Implement the reorder function');
+  deck.reverse();
+  return deck;
 }
