@@ -5,14 +5,13 @@
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt
  */
 
-//
-// This is only a SKELETON file for the 'Grains' exercise. It's been provided as a
-// convenience to get you started writing code faster.
-//
-export const square = () => {
-  throw new Error('Remove this statement and implement this function');
+export const square = (n) => {
+  if (n < 1 || n > 64) {
+    throw new Error('square must be between 1 and 64');
+  }
+  return 1n << BigInt(n - 1);
 };
 
 export const total = () => {
-  throw new Error('Remove this statement and implement this function');
+  return (1n << 64n) - 1n;
 };
